@@ -151,7 +151,7 @@ describe("the test helper", function(){
       }, 2000, 100).fail(function(){
         // One at the beginning, and 19-20 more depending on whether it's the timeout or the final
         // poll that wins at 2000ms.
-        expect(checks).to.be.greaterThan(18);
+        expect(checks).to.be.greaterThan(17);
         expect(checks).to.be.lessThan(22);
         done();
       });
@@ -240,10 +240,11 @@ describe("the test helper", function(){
       await helper.waitForPromise(() => { checks++; return false; }, 2000, 100)
           .catch(() => { rejected = true; });
       expect(rejected).to.be(true);
-       // One at the beginning, and 19-20 more depending on whether it's the timeout or the final
-       // poll that wins at 2000ms.
-      expect(checks).to.be.greaterThan(18);
-      expect(checks).to.be.lessThan(22);
+       // `checks` is expected to be 20 or 21: one at the beginning, plus 19 or 20 more depending on
+       // whether it's the timeout or the final poll that wins at 2000ms. Margin is added to reduce
+       // flakiness on slow test machines.
+      expect(checks).to.be.greaterThan(17);
+      expect(checks).to.be.lessThan(24);
     });
   });
 
